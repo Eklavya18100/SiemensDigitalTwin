@@ -3,7 +3,7 @@
   "version": "1.3.3",
   "description": "Autodesk Forge application demonstrating various use cases in manufacturing, specifically in context of digital twins.",
   "engines": {
-    "node": "14.x"
+    "node": "18.x"
   },
   "scripts": {
     "start": "node server.js"
