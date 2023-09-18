@@ -2,14 +2,14 @@
     "version": 2,
     "builds": [
         {
-            "src": "./routes/views/**/*.pug",
-            "use": "@vercel/static-build"
+            "src": "./server.js",
+            "use": "@vercel/node"
         }
     ],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "/routes/views/index.pug"
+            "dest": "/"
         }
     ]
 }
