@@ -188,7 +188,7 @@ function initMaintenanceTab(mainViewer) {
     }
 
     // Highlight a part in 3D view when its ID is clicked in the revisions table
-    $('#revisions').on('click', function(ev) {        
+    $('#revisions').on('click', function (ev) {
         if (ev.target.innerText.match(/^\d+$/)) {
             const partId = parseInt(ev.target.innerText);
             const selectedIds = mainViewer.getSelection();
@@ -199,8 +199,18 @@ function initMaintenanceTab(mainViewer) {
         }
     });
 
+    setTimeout(function () {
+        const partId = 3396;
+        const selectedIds = mainViewer.getSelection();
+        if (selectedIds.length === 0 || selectedIds[0] !== partId) {
+            mainViewer.select(partId);
+            mainViewer.fitToView([partId]);
+        }
+    }, 5000); // Wait for 5 seconds (5000 milliseconds)
+
+
     // Highlight a part in 3D view when its ID is clicked in the issues table
-    $('#issues').on('click', function(ev) {        
+    $('#issues').on('click', function (ev) {
         if (ev.target.innerText.match(/^\d+$/)) {
             const partId = parseInt(ev.target.innerText);
             const selectedIds = mainViewer.getSelection();
@@ -212,7 +222,7 @@ function initMaintenanceTab(mainViewer) {
     });
 
     // Handle revisions table pagination
-    $('#revisions + nav > .pagination').on('click', function(ev) {
+    $('#revisions + nav > .pagination').on('click', function (ev) {
         if (ev.target.innerText.match(/^\d+$/)) {
             const page = parseInt(ev.target.innerText);
             maintenance.currPage = page - 1;
@@ -222,7 +232,7 @@ function initMaintenanceTab(mainViewer) {
     });
 
     // Handle issues table pagination
-    $('#issues + nav > .pagination').on('click', function(ev) {
+    $('#issues + nav > .pagination').on('click', function (ev) {
         if (ev.target.innerText.match(/^\d+$/)) {
             const page = parseInt(ev.target.innerText);
             issues.currPage = page - 1;
@@ -232,7 +242,7 @@ function initMaintenanceTab(mainViewer) {
     });
 
     // Filter revision/issue tables based on parts isolated in 3D view
-    mainViewer.addEventListener(Autodesk.Viewing.ISOLATE_EVENT, function(ev) {
+    mainViewer.addEventListener(Autodesk.Viewing.ISOLATE_EVENT, function (ev) {
         const ids = mainViewer.getIsolatedNodes();
         updateRevisions(true, ids);
         updateIssues(true, ids);
@@ -257,7 +267,7 @@ function initMaintenanceTab(mainViewer) {
     // Update revision/issue forms based on parts highlighted in 3D view
     const $revisionStats = $('#revision-stats');
     const $revisionStatsAlert = $('#maintenance-statistics div.alert');
-    mainViewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, function(ev) {
+    mainViewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, function (ev) {
         const ids = mainViewer.getSelection();
         updateRevisionForm(ids);
         updateIssueForm(ids);
@@ -288,7 +298,7 @@ function initMaintenanceTab(mainViewer) {
     $revisionStatsAlert.show();
 
     // Handle the event of submitting new revision
-    $('#revision-form button').on('click', function(ev) {
+    $('#revision-form button').on('click', function (ev) {
         const partId = parseInt($('#revision-part').val());
         const author = $('#revision-author').val();
         const passed = $('#revision-status').val() == 'Good';
@@ -302,13 +312,13 @@ function initMaintenanceTab(mainViewer) {
             if (resp.status === 200) {
                 $('#revision-modal .modal-body > p').text(`Revision Response: ${resp.statusText} (${resp.status})`);
                 $modal.modal('show');
-                setTimeout(function() { $modal.modal('hide'); }, 1000);
+                setTimeout(function () { $modal.modal('hide'); }, 1000);
                 updateRevisions(true, mainViewer.getIsolatedNodes());
             } else {
                 resp.text().then(text => {
                     $('#revision-modal .modal-body > p').text(`Revision Response: ${resp.statusText} (${resp.status}) ${text}`);
                     $modal.modal('show');
-                    setTimeout(function() { $modal.modal('hide'); }, 5000);
+                    setTimeout(function () { $modal.modal('hide'); }, 5000);
                 });
             }
         });
@@ -316,7 +326,7 @@ function initMaintenanceTab(mainViewer) {
     });
 
     // Handle the event of submitting new issue
-    $('#issue-form button').on('click', function(ev) {
+    $('#issue-form button').on('click', function (ev) {
         const partId = parseInt($('#issue-part').val());
         const text = $('#issue-title').val();
         const author = $('#issue-author').val();
@@ -332,13 +342,13 @@ function initMaintenanceTab(mainViewer) {
             if (resp.status === 200) {
                 $('#issue-modal .modal-body > p').text(`Issue Response: ${resp.statusText} (${resp.status})`);
                 $modal.modal('show');
-                setTimeout(function() { $modal.modal('hide'); }, 1000);
+                setTimeout(function () { $modal.modal('hide'); }, 1000);
                 updateIssues(true, mainViewer.getIsolatedNodes());
             } else {
                 resp.text().then(text => {
                     $('#issue-modal .modal-body > p').text(`Issue Response: ${resp.statusText} (${resp.status}) ${text}`);
                     $modal.modal('show');
-                    setTimeout(function() { $modal.modal('hide'); }, 5000);
+                    setTimeout(function () { $modal.modal('hide'); }, 5000);
                 });
             }
         });
@@ -346,7 +356,7 @@ function initMaintenanceTab(mainViewer) {
     });
 
     // After a mouse click on 3D viewport, populate X/Y/Z of the intersection
-    $('#viewer').on('click', function(ev) {
+    $('#viewer').on('click', function (ev) {
         let intersections = [];
         const bounds = document.getElementById('viewer').getBoundingClientRect();
         mainViewer.impl.castRayViewport(mainViewer.impl.clientToViewport(ev.clientX - bounds.left, ev.clientY - bounds.top), false, null, null, intersections);
