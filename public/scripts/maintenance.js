@@ -199,15 +199,18 @@ function initMaintenanceTab(mainViewer) {
         }
     });
 
-    setTimeout(function () {
-        const partId = 3396;
+    setTimeout(function() {
+        const partIds = [3396, 3417];
         const selectedIds = mainViewer.getSelection();
-        if (selectedIds.length === 0 || selectedIds[0] !== partId) {
-            mainViewer.select(partId);
-            mainViewer.fitToView([partId]);
+        const shouldSelect = partIds.some(id => !selectedIds.includes(id));
+    
+        if (shouldSelect) {
+            mainViewer.setSelectionColor(new THREE.Color(0xFF0000), Autodesk.Viewing.SelectionType.MIXED); // red color
+
+            mainViewer.select(partIds);
+            mainViewer.fitToView(partIds, { color: 0xFF0000 }); // Set color to red (hex value: 0xFF0000)
         }
     }, 5000); // Wait for 5 seconds (5000 milliseconds)
-
 
     // Highlight a part in 3D view when its ID is clicked in the issues table
     $('#issues').on('click', function (ev) {
