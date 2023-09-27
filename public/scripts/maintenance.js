@@ -200,7 +200,7 @@ function initMaintenanceTab(mainViewer) {
     });
 
     setTimeout(function() {
-        const partIds = [3396, 3417];
+        const partIds = [3396, 3404];
         const selectedIds = mainViewer.getSelection();
         const shouldSelect = partIds.some(id => !selectedIds.includes(id));
     
