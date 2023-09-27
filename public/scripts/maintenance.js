@@ -208,7 +208,7 @@ function initMaintenanceTab(mainViewer) {
             mainViewer.setSelectionColor(new THREE.Color(0xFF0000), Autodesk.Viewing.SelectionType.MIXED); // red color
 
             mainViewer.select(partIds);
-            mainViewer.fitToView(partIds, { color: 0xFF0000 }); // Set color to red (hex value: 0xFF0000)
+            mainViewer.fitToView(partIds); // Set color to red (hex value: 0xFF0000)
         }
     }, 5000); // Wait for 5 seconds (5000 milliseconds)
 
