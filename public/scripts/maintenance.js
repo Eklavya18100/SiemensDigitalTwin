@@ -217,6 +217,7 @@ function initMaintenanceTab(mainViewer) {
         partIds.forEach(partId => {
             mainViewer.setThemingColor(partId, color);
         });
+        mainViewer.fitToView(partIds); 
     }, 5000); // Wait for 5 seconds (5000 milliseconds)
 
     // Highlight a part in 3D view when its ID is clicked in the issues table
